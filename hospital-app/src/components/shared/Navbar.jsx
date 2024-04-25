@@ -19,14 +19,14 @@ function Navbar() {
           </Typography>
           
           <Typography variant="h6"> 
-            <RouterLink to="/Hospital_ReactApp/appointments" className='navbar-link'> 
-              Appointments 
-            </RouterLink>   
-          </Typography>
-          
-          <Typography variant="h6"> 
             <RouterLink to="/Hospital_ReactApp/records" className='navbar-link'> 
               Records 
+            </RouterLink>   
+          </Typography>
+
+          <Typography variant="h6"> 
+            <RouterLink to="/Hospital_ReactApp/" className='navbar-link'> 
+              Cabinet 
             </RouterLink>   
           </Typography>
         </div>
