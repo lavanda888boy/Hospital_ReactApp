@@ -11,7 +11,7 @@ function PatientCard({ patient }) {
             Age: {patient.age}, Gender: {patient.gender}
           </Typography>
           <Typography variant="body2" component="div" className='patient-card-diseases'>
-            Diagnosed Diseases:
+            Diagnosed Diseases: 
             <ul>
               {patient.diagnosedDiseases.map((disease, index) => (
                 <li key={index}>{disease}</li>

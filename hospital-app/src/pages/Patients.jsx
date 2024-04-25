@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Grid } from '@mui/material';
+import { Container, Grid, Button } from '@mui/material';
 import PatientCard from '../components/patients/PatientCard';
 import Navbar from '../components/shared/Navbar';
 import './Patients.css';
@@ -42,13 +42,6 @@ const Patients = () => {
             gender: 'Female',
             diagnosedDiseases: ['Diabetes', 'Asthma'],
           },
-          {
-            id: 4,
-            name: 'Jane Smith',
-            age: 42,
-            gender: 'Female',
-            diagnosedDiseases: ['Diabetes', 'Asthma'],
-          },
         ];
 
         savePatientsToLocalStorage(defaultPatients);
@@ -68,6 +61,9 @@ const Patients = () => {
       <Navbar />
         <div className='patients-wrapper'>
           <Container>
+            <Button variant="contained" className='patients-add-button'>
+              Add Patient
+            </Button>
             <Grid container spacing={3}>
               {patients.map((patient, index) => (
                 <Grid item key={index} xs={12} sm={6} md={4}>

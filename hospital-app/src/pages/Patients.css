@@ -3,4 +3,16 @@
     margin-top: 4%;
     padding-top: 3%;
     background-color: #F2E8CF;
+
+    .patients-add-button {
+        margin-bottom: 2%;
+        background-color: #386641;
+        color: #F2E8CF;
+        font-size: 1vw;
+        border-radius: 10px;
+    }
+
+    .patients-add-button:hover {
+        background-color: #6A994E;
+    }
 }
