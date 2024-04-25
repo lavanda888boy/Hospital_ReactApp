@@ -8,6 +8,18 @@ const Cabinet = () => {
   return (
     <>
       <Navbar />
+      <div className="cabinet-wrapper">
+        <div className="cabinet-header"> Welcome To The Cabinet, Doctor! </div>
+        <div className="cabinet-subheader">
+          {" "}
+          Here are your accomplishments for today:{" "}
+        </div>
+        <div className="cabinet-statistics">
+          {" "}
+          Patients registered: {patientCount} <br /> Medical records presented:{" "}
+          {recordCount}{" "}
+        </div>
+      </div>
     </>
   );
 };

@@ -1,31 +1,31 @@
 .records-add-dialog {
-    background-color: #F2E8CF;
+  background-color: #f2e8cf;
 
-    .records-add-dialog-row {
-        margin-top: 2%;
-    }
+  .records-add-dialog-row {
+    margin-top: 2%;
+  }
 
-    .records-add-dialog-submit {
-        margin-top: -2%;
-        padding-top: 2%;
-        background-color: #386641;
-        font-size: 1vw;
-        border-radius: 10px;
-    }
+  .records-add-dialog-submit {
+    margin-top: -2%;
+    padding-top: 2%;
+    background-color: #386641;
+    font-size: 1vw;
+    border-radius: 10px;
+  }
 
-    .records-add-dialog-submit:hover {
-        background-color: #6A994E;
-    }
+  .records-add-dialog-submit:hover {
+    background-color: #6a994e;
+  }
 
-    .records-add-dialog-cancel {
-        margin-top: -2%;
-        padding-top: 2%;
-        background-color: #BC4749;
-        font-size: 1vw;
-        border-radius: 10px;
-    }
+  .records-add-dialog-cancel {
+    margin-top: -2%;
+    padding-top: 2%;
+    background-color: #bc4749;
+    font-size: 1vw;
+    border-radius: 10px;
+  }
 
-    .records-add-dialog-cancel:hover {
-        background-color: #da5456;
-    }
+  .records-add-dialog-cancel:hover {
+    background-color: #da5456;
+  }
 }
