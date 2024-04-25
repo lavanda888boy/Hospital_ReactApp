@@ -1,26 +1,31 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Grid, Button } from '@mui/material';
-import Navbar from '../components/shared/Navbar';
-import './Records.css';
-import AddRecordDialog from '../components/records/AddRecordDialog';
-import RecordCard from '../components/records/RecordCard';
+import React, { useState, useEffect } from "react";
+import { Container, Grid, Button } from "@mui/material";
+import Navbar from "../components/shared/Navbar";
+import "./Records.css";
+import AddRecordDialog from "../components/records/AddRecordDialog";
+import RecordCard from "../components/records/RecordCard";
 
 const Records = () => {
   const [records, setRecords] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
 
   const saveRecordsToLocalStorage = (recordsData) => {
-    localStorage.setItem('records', JSON.stringify(recordsData));
+    localStorage.setItem("records", JSON.stringify(recordsData));
   };
 
   const getRecordsFromLocalStorage = () => {
-    const recordsData = localStorage.getItem('records');
+    const recordsData = localStorage.getItem("records");
     return recordsData ? JSON.parse(recordsData) : [];
+  };
+
+  const getRecordCountFromLocalStorage = () => {
+    const count = localStorage.getItem("recordCount");
+    return count ? parseInt(count, 10) : 0;
   };
 
   useEffect(() => {
     const storedRecords = getRecordsFromLocalStorage();
-    
+
     if (storedRecords.length === 0) {
       const defaultRecords = [];
       saveRecordsToLocalStorage(defaultRecords);
@@ -33,41 +38,53 @@ const Records = () => {
     const updatedRecords = [...records, newRecord];
     setRecords(updatedRecords);
     saveRecordsToLocalStorage(updatedRecords);
+
+    const patientCount = getRecordCountFromLocalStorage() + 1;
+    localStorage.setItem("recordCount", patientCount.toString());
+
     setOpenDialog(false);
-  };
+  }
 
   function handleDeleteRecord(deleteRecord) {
-    const updatedRecords = records.filter(record => record.date !== deleteRecord.date ||
-        record.doctor !== deleteRecord.doctor || record.patient !== deleteRecord.patient ||
-        record.notes !== deleteRecord.notes);
+    const updatedRecords = records.filter(
+      (record) =>
+        record.date !== deleteRecord.date ||
+        record.doctor !== deleteRecord.doctor ||
+        record.patient !== deleteRecord.patient ||
+        record.notes !== deleteRecord.notes
+    );
     setRecords(updatedRecords);
-    localStorage.setItem('records', JSON.stringify(updatedRecords));
-  };
+    localStorage.setItem("records", JSON.stringify(updatedRecords));
+  }
 
   return (
     <>
       <Navbar />
-        <div className='records-wrapper'>
-          <Container>
-            <Button variant="contained" onClick={() => setOpenDialog(true)} className='records-add-button'>
-              Add Record
-            </Button>
-            <Grid container spacing={3}>
-              {records.map((record, index) => (
-                <Grid item key={index} xs={12} sm={6} md={4}>
-                  <RecordCard record={record} onDelete={handleDeleteRecord} />
-                </Grid>
-              ))}
-            </Grid>
-          </Container>
-        </div>
-        <AddRecordDialog
-          open={openDialog}
-          onClose={() => setOpenDialog(false)}
-          onSubmit={handleAddRecord}
-        />
+      <div className="records-wrapper">
+        <Container>
+          <Button
+            variant="contained"
+            onClick={() => setOpenDialog(true)}
+            className="records-add-button"
+          >
+            Add Record
+          </Button>
+          <Grid container spacing={3}>
+            {records.map((record, index) => (
+              <Grid item key={index} xs={12} sm={6} md={4}>
+                <RecordCard record={record} onDelete={handleDeleteRecord} />
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      </div>
+      <AddRecordDialog
+        open={openDialog}
+        onClose={() => setOpenDialog(false)}
+        onSubmit={handleAddRecord}
+      />
     </>
   );
-}
+};
 
 export default Records;
