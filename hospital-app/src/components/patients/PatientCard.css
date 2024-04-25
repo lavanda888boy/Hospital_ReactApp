@@ -1,0 +1,20 @@
+.patient-card-header {
+    background-color: #6A994E;
+    color: #F2E8CF;
+    text-align: center;
+}
+
+.patient-card-content {
+    background-color: #386641;
+    text-align: center;
+    color: #F2E8CF;
+
+    .patient-card-diseases {
+        padding-top: 2%;
+        padding-bottom: 2%;
+        border-radius: 10px;
+        background-color: #BC4749;
+        
+        font-size: 0.95vw;
+    }
+}

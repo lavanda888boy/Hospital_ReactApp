@@ -1,12 +1,12 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import './App.css'
-import Navbar from './components/Navbar'
+import './reset.css'
+import Patients from './pages/Patients';
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/Hospital_ReactApp" element={ <Navbar/> } />
+        <Route path="/Hospital_ReactApp/patients" element={ <Patients/> } />
       </Routes>
     </Router>
   )
