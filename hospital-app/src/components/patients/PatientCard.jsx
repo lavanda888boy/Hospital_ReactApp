@@ -4,7 +4,7 @@ import './PatientCard.css';
 
 function PatientCard({ patient, onDelete }) {
   const handleDelete = () => {
-    onDelete(patient.id);
+    onDelete(patient);
   };
 
   return (
