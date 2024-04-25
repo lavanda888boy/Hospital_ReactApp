@@ -20,6 +20,12 @@ const Patients = () => {
 
   useEffect(() => {
     const storedPatients = getPatientsFromLocalStorage();
+    
+    if (storedPatients.length === 0) {
+      const defaultPatients = [];
+      savePatientsToLocalStorage(defaultPatients);
+    }
+
     setPatients(storedPatients);
   }, []);
 
