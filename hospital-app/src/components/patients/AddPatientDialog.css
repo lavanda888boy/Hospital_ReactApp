@@ -1,0 +1,29 @@
+.patients-add-dialog {
+    background-color: #F2E8CF;
+
+    .patients-add-dialog-row {
+        margin-top: 2%;
+    }
+
+    .patients-add-dialog-submit {
+        margin-top: -2%;
+        background-color: #386641;
+        font-size: 1vw;
+        border-radius: 10px;
+    }
+
+    .patients-add-dialog-submit:hover {
+        background-color: #6A994E;
+    }
+
+    .patients-add-dialog-cancel {
+        margin-top: -2%;
+        background-color: #BC4749;
+        font-size: 1vw;
+        border-radius: 10px;
+    }
+
+    .patients-add-dialog-cancel:hover {
+        background-color: #da5456;
+    }
+}

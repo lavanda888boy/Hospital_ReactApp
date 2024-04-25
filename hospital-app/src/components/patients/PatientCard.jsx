@@ -7,10 +7,10 @@ function PatientCard({ patient }) {
       <Card style={{ 'border-radius': '10px' }}>
         <CardHeader className='patient-card-header' title={`${patient.name}`} />
         <CardContent className='patient-card-content'>
-          <Typography variant='h6'>
+          <Typography style={{ 'fontSize': '0.95vw', 'marginBottom': '1%' }}>
             Age: {patient.age}, Gender: {patient.gender}
           </Typography>
-          <Typography variant="body2" component="div" className='patient-card-diseases'>
+          <Typography component="div" className='patient-card-diseases'>
             Diagnosed Diseases: 
             <ul>
               {patient.diagnosedDiseases.map((disease, index) => (
