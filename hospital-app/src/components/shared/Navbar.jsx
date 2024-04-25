@@ -7,7 +7,7 @@ function Navbar() {
   return (
     <AppBar>
       <Toolbar className='navbar'>
-        <Typography variant="h6" component="div" className='navbar-app-name'>
+        <Typography variant="h4" component="div" className='navbar-app-name'>
           Hospital Management
         </Typography>
 
