@@ -54,6 +54,9 @@ const Patients = () => {
     );
     setPatients(updatedPatients);
     localStorage.setItem("patients", JSON.stringify(updatedPatients));
+
+    const patientCount = getPatientCountFromLocalStorage() - 1;
+    localStorage.setItem("patientCount", patientCount.toString());
   }
 
   return (
