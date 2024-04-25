@@ -1,0 +1,23 @@
+.record-card-header {
+    background-color: #6A994E;
+    color: #F2E8CF;
+    text-align: center;
+}
+
+.record-card-content {
+    background-color: #386641;
+    text-align: center;
+    color: #F2E8CF;
+
+    .record-card-remove {
+        margin-top: 3%;
+        padding-top: 3%;
+        background-color: #BC4749;
+        font-size: 1vw;
+        border-radius: 10px;
+    }
+
+    .record-card-remove:hover {
+        background-color: #da5456;
+    }
+}

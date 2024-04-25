@@ -36,8 +36,9 @@ const Patients = () => {
     setOpenDialog(false);
   };
 
-  function handleDeletePatient(patientId) {
-    const updatedPatients = patients.filter(patient => patient.id !== patientId);
+  function handleDeletePatient(deletePatient) {
+    const updatedPatients = patients.filter(patient => patient.name!== deletePatient.name ||
+      patient.age!== deletePatient.age || patient.gender!== deletePatient.gender);
     setPatients(updatedPatients);
     localStorage.setItem('patients', JSON.stringify(updatedPatients));
   };

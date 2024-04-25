@@ -3,6 +3,7 @@ import { Container, Grid, Button } from '@mui/material';
 import Navbar from '../components/shared/Navbar';
 import './Records.css';
 import AddRecordDialog from '../components/records/AddRecordDialog';
+import RecordCard from '../components/records/RecordCard';
 
 const Records = () => {
   const [records, setRecords] = useState([]);
@@ -35,10 +36,12 @@ const Records = () => {
     setOpenDialog(false);
   };
 
-  function handleDeleteRecord(recordId) {
-    const updatedRecords = records.filter(record => record.id !== recordId);
+  function handleDeleteRecord(deleteRecord) {
+    const updatedRecords = records.filter(record => record.date !== deleteRecord.date ||
+        record.doctor !== deleteRecord.doctor || record.patient !== deleteRecord.patient ||
+        record.notes !== deleteRecord.notes);
     setRecords(updatedRecords);
-    localStorage.setItem('patients', JSON.stringify(updatedRecords));
+    localStorage.setItem('records', JSON.stringify(updatedRecords));
   };
 
   return (
@@ -50,9 +53,9 @@ const Records = () => {
               Add Record
             </Button>
             <Grid container spacing={3}>
-              {records.map((patient, index) => (
+              {records.map((record, index) => (
                 <Grid item key={index} xs={12} sm={6} md={4}>
-                  <PatientCard patient={patient} onDelete={handleDeletePatient} />
+                  <RecordCard record={record} onDelete={handleDeleteRecord} />
                 </Grid>
               ))}
             </Grid>
