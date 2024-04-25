@@ -20,35 +20,6 @@ const Patients = () => {
 
   useEffect(() => {
     const storedPatients = getPatientsFromLocalStorage();
-    
-    if (storedPatients.length === 0) {
-        const defaultPatients = [
-          {
-            id: 1,
-            name: 'John Doe',
-            age: 35,
-            gender: 'Male',
-            diagnosedDiseases: ['Flu', 'Hypertension'],
-          },
-          {
-            id: 2,
-            name: 'Jane Smith',
-            age: 42,
-            gender: 'Female',
-            diagnosedDiseases: ['Diabetes', 'Asthma'],
-          },
-          {
-            id: 3,
-            name: 'Jane Smith',
-            age: 42,
-            gender: 'Female',
-            diagnosedDiseases: ['Diabetes', 'Asthma'],
-          },
-        ];
-
-        savePatientsToLocalStorage(defaultPatients);
-      }
-
     setPatients(storedPatients);
   }, []);
 
@@ -57,6 +28,12 @@ const Patients = () => {
     setPatients(updatedPatients);
     savePatientsToLocalStorage(updatedPatients);
     setOpenDialog(false);
+  };
+
+  function handleDeletePatient(patientId) {
+    const updatedPatients = patients.filter(patient => patient.id !== patientId);
+    setPatients(updatedPatients);
+    localStorage.setItem('patients', JSON.stringify(updatedPatients));
   };
 
   return (
@@ -70,7 +47,7 @@ const Patients = () => {
             <Grid container spacing={3}>
               {patients.map((patient, index) => (
                 <Grid item key={index} xs={12} sm={6} md={4}>
-                  <PatientCard patient={patient} />
+                  <PatientCard patient={patient} onDelete={handleDeletePatient} />
                 </Grid>
               ))}
             </Grid>

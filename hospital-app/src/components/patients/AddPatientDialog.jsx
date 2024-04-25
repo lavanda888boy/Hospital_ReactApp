@@ -56,11 +56,11 @@ function AddPatientDialog({ open, onClose, onSubmit }) {
         <DialogActions>
             <Button onClick={handleSubmit} variant="contained" color="primary"
                     className='patients-add-dialog-submit'>
-                Submit
+              Submit
             </Button>
             <Button onClick={onClose} variant="contained" color="primary"
                     className='patients-add-dialog-cancel'>
-                Cancel
+              Cancel
             </Button>
         </DialogActions>
       </div>
