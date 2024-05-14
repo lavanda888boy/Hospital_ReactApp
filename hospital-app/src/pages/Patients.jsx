@@ -1,38 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Container, Grid, Button } from "@mui/material";
 import PatientCard from "../components/patients/PatientCard";
 import AddPatientDialog from "../components/patients/AddPatientDialog";
 import Navbar from "../components/shared/Navbar";
 import "./Patients.css";
 
+import { AppStateContext } from "../AppStateContext";
+
 const Patients = () => {
-  const [patients, setPatients] = useState([]);
+  const { patients, setPatients } = useContext(AppStateContext);
   const [openDialog, setOpenDialog] = useState(false);
 
-  const savePatientsToLocalStorage = (patientsData) => {
+  useEffect(() => {
+    const storedPatients = JSON.parse(localStorage.getItem("patients")) || [];
+    setPatients(storedPatients);
+  }, [setPatients]);
+
+  function savePatientsToLocalStorage(patientsData) {
     localStorage.setItem("patients", JSON.stringify(patientsData));
-  };
+  }
 
-  const getPatientsFromLocalStorage = () => {
-    const patientsData = localStorage.getItem("patients");
-    return patientsData ? JSON.parse(patientsData) : [];
-  };
-
-  const getPatientCountFromLocalStorage = () => {
+  function getPatientCountFromLocalStorage() {
     const count = localStorage.getItem("patientCount");
     return count ? parseInt(count, 10) : 0;
-  };
-
-  useEffect(() => {
-    const storedPatients = getPatientsFromLocalStorage();
-
-    if (storedPatients.length === 0) {
-      const defaultPatients = [];
-      savePatientsToLocalStorage(defaultPatients);
-    }
-
-    setPatients(storedPatients);
-  }, []);
+  }
 
   function handleAddPatient(newPatient) {
     const updatedPatients = [...patients, newPatient];
@@ -72,11 +63,15 @@ const Patients = () => {
             Add Patient
           </Button>
           <Grid container spacing={3}>
-            {patients.map((patient, index) => (
-              <Grid item key={index} xs={12} sm={6} md={4}>
-                <PatientCard patient={patient} onDelete={handleDeletePatient} />
-              </Grid>
-            ))}
+            {patients &&
+              patients.map((patient, index) => (
+                <Grid item key={index} xs={12} sm={6} md={4}>
+                  <PatientCard
+                    patient={patient}
+                    onDelete={handleDeletePatient}
+                  />
+                </Grid>
+              ))}
           </Grid>
         </Container>
       </div>

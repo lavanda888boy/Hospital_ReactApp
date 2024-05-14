@@ -1,46 +1,36 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import { Container, Grid, Button } from "@mui/material";
 import Navbar from "../components/shared/Navbar";
 import "./Records.css";
 import AddRecordDialog from "../components/records/AddRecordDialog";
 import RecordCard from "../components/records/RecordCard";
+import { AppStateContext } from "../AppStateContext";
 
 const Records = () => {
-  const [records, setRecords] = useState([]);
+  const { records, setRecords } = useContext(AppStateContext);
   const [openDialog, setOpenDialog] = useState(false);
 
-  const saveRecordsToLocalStorage = (recordsData) => {
+  useEffect(() => {
+    const storedRecords = JSON.parse(localStorage.getItem("records")) || [];
+    setRecords(storedRecords);
+  }, [setRecords]);
+
+  function saveRecordsToLocalStorage(recordsData) {
     localStorage.setItem("records", JSON.stringify(recordsData));
-  };
+  }
 
-  const getRecordsFromLocalStorage = () => {
-    const recordsData = localStorage.getItem("records");
-    return recordsData ? JSON.parse(recordsData) : [];
-  };
-
-  const getRecordCountFromLocalStorage = () => {
+  function getRecordCountFromLocalStorage() {
     const count = localStorage.getItem("recordCount");
     return count ? parseInt(count, 10) : 0;
-  };
-
-  useEffect(() => {
-    const storedRecords = getRecordsFromLocalStorage();
-
-    if (storedRecords.length === 0) {
-      const defaultRecords = [];
-      saveRecordsToLocalStorage(defaultRecords);
-    }
-
-    setRecords(storedRecords);
-  }, []);
+  }
 
   function handleAddRecord(newRecord) {
     const updatedRecords = [...records, newRecord];
     setRecords(updatedRecords);
     saveRecordsToLocalStorage(updatedRecords);
 
-    const patientCount = getRecordCountFromLocalStorage() + 1;
-    localStorage.setItem("recordCount", patientCount.toString());
+    const recordCount = getRecordCountFromLocalStorage() + 1;
+    localStorage.setItem("recordCount", recordCount.toString());
 
     setOpenDialog(false);
   }
@@ -56,8 +46,8 @@ const Records = () => {
     setRecords(updatedRecords);
     localStorage.setItem("records", JSON.stringify(updatedRecords));
 
-    const patientCount = getRecordCountFromLocalStorage() - 1;
-    localStorage.setItem("recordCount", patientCount.toString());
+    const recordCount = getRecordCountFromLocalStorage() - 1;
+    localStorage.setItem("recordCount", recordCount.toString());
   }
 
   return (
@@ -73,11 +63,12 @@ const Records = () => {
             Add Record
           </Button>
           <Grid container spacing={3}>
-            {records.map((record, index) => (
-              <Grid item key={index} xs={12} sm={6} md={4}>
-                <RecordCard record={record} onDelete={handleDeleteRecord} />
-              </Grid>
-            ))}
+            {records &&
+              records.map((record, index) => (
+                <Grid item key={index} xs={12} sm={6} md={4}>
+                  <RecordCard record={record} onDelete={handleDeleteRecord} />
+                </Grid>
+              ))}
           </Grid>
         </Container>
       </div>
