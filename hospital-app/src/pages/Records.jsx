@@ -1,13 +1,13 @@
 import React, { useEffect, useContext, useState } from "react";
 import { Container, Grid, Button } from "@mui/material";
-import Navbar from "../components/shared/Navbar";
 import "./Records.css";
 import AddRecordDialog from "../components/records/AddRecordDialog";
 import RecordCard from "../components/records/RecordCard";
 import { AppStateContext } from "../AppStateContext";
 
 const Records = () => {
-  const { records, setRecords } = useContext(AppStateContext);
+  const { recordCount, setRecordCount, records, setRecords } =
+    useContext(AppStateContext);
   const [openDialog, setOpenDialog] = useState(false);
 
   useEffect(() => {
@@ -32,6 +32,8 @@ const Records = () => {
     const recordCount = getRecordCountFromLocalStorage() + 1;
     localStorage.setItem("recordCount", recordCount.toString());
 
+    setRecordCount(recordCount);
+
     setOpenDialog(false);
   }
 
@@ -48,11 +50,12 @@ const Records = () => {
 
     const recordCount = getRecordCountFromLocalStorage() - 1;
     localStorage.setItem("recordCount", recordCount.toString());
+
+    setRecordCount(recordCount);
   }
 
   return (
     <>
-      <Navbar />
       <div className="records-wrapper">
         <Container>
           <Button

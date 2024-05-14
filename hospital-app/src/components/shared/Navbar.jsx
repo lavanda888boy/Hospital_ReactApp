@@ -1,9 +1,13 @@
 import React from "react";
-import { AppBar, Toolbar, Typography, Link } from "@mui/material";
+import { useContext } from "react";
+import { AppBar, Toolbar, Typography } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
+import { AppStateContext } from "../../AppStateContext";
 import "./Navbar.css";
 
 function Navbar() {
+  const { patientCount, recordCount } = useContext(AppStateContext);
+
   return (
     <AppBar>
       <Toolbar className="navbar">
@@ -21,10 +25,18 @@ function Navbar() {
             </RouterLink>
           </Typography>
 
+          <Typography variant="h6" className="navbar-count">
+            ({patientCount})
+          </Typography>
+
           <Typography variant="h6">
             <RouterLink to="/Hospital_ReactApp/records" className="navbar-link">
               Records
             </RouterLink>
+          </Typography>
+
+          <Typography variant="h6" className="navbar-count">
+            ({recordCount})
           </Typography>
 
           <Typography variant="h6">

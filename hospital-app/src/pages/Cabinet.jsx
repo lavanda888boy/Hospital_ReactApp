@@ -1,4 +1,3 @@
-import Navbar from "../components/shared/Navbar";
 import "./Cabinet.css";
 
 const Cabinet = () => {
@@ -7,7 +6,6 @@ const Cabinet = () => {
 
   return (
     <>
-      <Navbar />
       <div className="cabinet-wrapper">
         <div className="cabinet-header"> Welcome To The Cabinet, Doctor! </div>
         <div className="cabinet-subheader">
