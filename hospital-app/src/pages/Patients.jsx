@@ -2,13 +2,13 @@ import React, { useState, useEffect, useContext } from "react";
 import { Container, Grid, Button } from "@mui/material";
 import PatientCard from "../components/patients/PatientCard";
 import AddPatientDialog from "../components/patients/AddPatientDialog";
-import Navbar from "../components/shared/Navbar";
 import "./Patients.css";
 
 import { AppStateContext } from "../AppStateContext";
 
 const Patients = () => {
-  const { patients, setPatients } = useContext(AppStateContext);
+  const { patientCount, setPatientCount, patients, setPatients } =
+    useContext(AppStateContext);
   const [openDialog, setOpenDialog] = useState(false);
 
   useEffect(() => {
@@ -33,6 +33,8 @@ const Patients = () => {
     const patientCount = getPatientCountFromLocalStorage() + 1;
     localStorage.setItem("patientCount", patientCount.toString());
 
+    setPatientCount(patientCount);
+
     setOpenDialog(false);
   }
 
@@ -48,11 +50,12 @@ const Patients = () => {
 
     const patientCount = getPatientCountFromLocalStorage() - 1;
     localStorage.setItem("patientCount", patientCount.toString());
+
+    setPatientCount(patientCount);
   }
 
   return (
     <>
-      <Navbar />
       <div className="patients-wrapper">
         <Container>
           <Button

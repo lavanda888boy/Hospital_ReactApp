@@ -13,10 +13,15 @@
     display: flex;
     flex-direction: row;
     padding-left: 45%;
-    gap: 25%;
+    gap: 10%;
 
     .navbar-link {
       text-decoration: none;
+      color: #f2e8cf;
+    }
+
+    .navbar-count {
+      margin-left: -5%;
       color: #f2e8cf;
     }
   }
