@@ -30,7 +30,7 @@ namespace hospital_backend.Persistence
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<MedicalRecord>()
-                        .HasOne<Patient>()
+                        .HasOne(r => r.ExaminedPatient)
                         .WithMany()
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
