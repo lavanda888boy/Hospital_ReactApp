@@ -2,7 +2,7 @@
 
 namespace hospital_backend.Requests
 {
-    public class MedicalRecordRequest
+    public class MedicalRecordRequestDto
     {
         [Range(1, 30)]
         public required int ExaminedPatientId { get; set; }
