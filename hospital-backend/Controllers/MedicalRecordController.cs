@@ -18,21 +18,26 @@ namespace hospital_backend.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllRecords()
+        public async Task<IActionResult> GetAllRecords([FromQuery] int pageNumber, int pageSize)
         {
-            var records = await _context.Records.Select(r => new
-            {
-                Patient = r.ExaminedPatient.Name + " " + r.ExaminedPatient.Surname,
-                Doctor = r.ResponsibleDoctor,
-                Date = r.DateOfExamination,
-                Notes = r.ExaminationNotes
-            }).ToListAsync();
+            var records = await _context.Records
+                .OrderByDescending(r => r.DateOfExamination)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .Select(r => new
+                {
+                    Patient = r.ExaminedPatient.Name + " " + r.ExaminedPatient.Surname,
+                    Doctor = r.ResponsibleDoctor,
+                    Date = r.DateOfExamination,
+                    Notes = r.ExaminationNotes
+                })
+                .ToListAsync();
 
             return Ok(records);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddRecord([FromBody] MedicalRecordRequest recordDto)
+        public async Task<IActionResult> AddRecord([FromBody] MedicalRecordRequestDto recordDto)
         {
             if (!ModelState.IsValid)
             {

@@ -18,9 +18,15 @@ namespace hospital_backend.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllPatients()
+        public async Task<IActionResult> GetAllPatients([FromQuery] int pageNumber, int pageSize = 10)
         {
-            var patients = await _context.Patients.ToListAsync();
+            var patients = await _context.Patients
+                .OrderByDescending(p => p.Name)
+                .ThenBy(p => p.Surname)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
             return Ok(patients);
         }
 
