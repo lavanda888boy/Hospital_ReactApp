@@ -10,9 +10,21 @@ function Navbar() {
   const { patientCount, recordCount } = useContext(AppStateContext);
   const [showLoginDialog, setShowLoginDialog] = useState(false);
 
-  const handleLoginSubmit = (role) => {
-    // Handle login submit logic here
-    console.log("Selected role:", role);
+  const handleLoginSubmit = async (role) => {
+    try {
+      const url = `https://localhost:7134/api/Auth?role=${role}`;
+      const response = await fetch(url);
+
+      if (response.ok) {
+        const token = await response.text();
+        localStorage.setItem("token", token);
+        setShowLoginDialog(false);
+      } else {
+        console.error("Login request failed:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (

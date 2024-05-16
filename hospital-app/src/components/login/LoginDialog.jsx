@@ -36,8 +36,8 @@ function LoginDialog({ open, onClose, onSubmit }) {
                 label="Role"
                 onChange={(e) => setRole(e.target.value)}
               >
-                <MenuItem value="admin">Admin</MenuItem>
-                <MenuItem value="doctor">Doctor</MenuItem>
+                <MenuItem value="Admin">Admin</MenuItem>
+                <MenuItem value="Doctor">Doctor</MenuItem>
               </Select>
             </FormControl>
             <DialogActions>
