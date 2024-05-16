@@ -12,11 +12,17 @@
   .navbar-links {
     display: flex;
     flex-direction: row;
-    padding-left: 45%;
+    padding-left: 42%;
     gap: 10%;
 
     .navbar-link {
       text-decoration: none;
+      color: #f2e8cf;
+    }
+
+    .navbar-login {
+      background-color: transparent;
+      border: none;
       color: #f2e8cf;
     }
 

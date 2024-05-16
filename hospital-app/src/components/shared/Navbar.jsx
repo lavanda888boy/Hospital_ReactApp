@@ -1,12 +1,19 @@
 import React from "react";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AppBar, Toolbar, Typography } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import { AppStateContext } from "../../AppStateContext";
 import "./Navbar.css";
+import LoginDialog from "../login/LoginDialog";
 
 function Navbar() {
   const { patientCount, recordCount } = useContext(AppStateContext);
+  const [showLoginDialog, setShowLoginDialog] = useState(false);
+
+  const handleLoginSubmit = (role) => {
+    // Handle login submit logic here
+    console.log("Selected role:", role);
+  };
 
   return (
     <AppBar>
@@ -44,8 +51,21 @@ function Navbar() {
               Cabinet
             </RouterLink>
           </Typography>
+
+          <button
+            className="navbar-login"
+            onClick={() => setShowLoginDialog(true)}
+          >
+            <Typography variant="h6">Login</Typography>
+          </button>
         </div>
       </Toolbar>
+
+      <LoginDialog
+        open={showLoginDialog}
+        onClose={() => setShowLoginDialog(false)}
+        onSubmit={handleLoginSubmit}
+      />
     </AppBar>
   );
 }

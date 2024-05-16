@@ -7,7 +7,7 @@
 
   .patients-add-dialog-submit {
     margin-top: -2%;
-    padding-top: 2%;
+    padding-top: 1.5%;
     background-color: #386641;
     font-size: 1vw;
     border-radius: 10px;
@@ -19,7 +19,7 @@
 
   .patients-add-dialog-cancel {
     margin-top: -2%;
-    padding-top: 2%;
+    padding-top: 1.5%;
     background-color: #bc4749;
     font-size: 1vw;
     border-radius: 10px;
