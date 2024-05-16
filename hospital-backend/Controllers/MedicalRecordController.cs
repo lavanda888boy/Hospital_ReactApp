@@ -1,6 +1,7 @@
 ﻿using hospital_backend.Models;
 using hospital_backend.Persistence;
 using hospital_backend.Requests;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,6 +9,7 @@ namespace hospital_backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class MedicalRecordController : ControllerBase
     {
         private readonly HospitalDbContext _context;
@@ -18,6 +20,7 @@ namespace hospital_backend.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin, Doctor")]
         public async Task<IActionResult> GetAllRecords([FromQuery] int pageNumber, int pageSize = 6)
         {
             var records = await _context.Records
@@ -37,6 +40,7 @@ namespace hospital_backend.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin, Doctor")]
         public async Task<IActionResult> AddRecord([FromBody] MedicalRecordRequestDto recordDto)
         {
             if (!ModelState.IsValid)
@@ -65,6 +69,7 @@ namespace hospital_backend.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Admin, Doctor")]
         public async Task<IActionResult> UpdateRecord([FromQuery] int id, [FromQuery] string examinationNotes)
         {
             if (!ModelState.IsValid)
@@ -87,6 +92,7 @@ namespace hospital_backend.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteRecord([FromQuery] int id)
         {
             var existingRecord = await _context.Records.FindAsync(id);
