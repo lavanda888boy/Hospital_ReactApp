@@ -1,11 +1,9 @@
 ﻿using hospital_backend.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace hospital_backend.Persistence
 {
-    public class HospitalDbContext : IdentityDbContext<IdentityUser>
+    public class HospitalDbContext : DbContext
     {
         private readonly string _dbConnectionString = "Filename=HospitalApp.db";
 
@@ -27,8 +25,6 @@ namespace hospital_backend.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
-
             modelBuilder.Entity<MedicalRecord>()
                         .HasOne(r => r.ExaminedPatient)
                         .WithMany()

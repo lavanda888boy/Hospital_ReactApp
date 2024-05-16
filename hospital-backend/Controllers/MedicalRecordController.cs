@@ -18,7 +18,7 @@ namespace hospital_backend.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllRecords([FromQuery] int pageNumber, int pageSize)
+        public async Task<IActionResult> GetAllRecords([FromQuery] int pageNumber, int pageSize = 6)
         {
             var records = await _context.Records
                 .OrderByDescending(r => r.DateOfExamination)
