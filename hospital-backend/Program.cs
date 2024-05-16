@@ -1,3 +1,4 @@
+using hospital_backend.Extensions;
 using hospital_backend.Persistence;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +13,9 @@ namespace hospital_backend
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.RegisterAuthentication();
+            builder.Services.AddAuthToSwagger();
 
             builder.Services.AddDbContext<HospitalDbContext>(options =>
                 options.UseSqlite(builder.Configuration.GetConnectionString("Default")));
