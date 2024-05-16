@@ -30,8 +30,9 @@ namespace hospital_backend
 
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
+            app.UseCors(configurePolicy => configurePolicy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
+            app.UseAuthorization();
 
             app.MapControllers();
 
