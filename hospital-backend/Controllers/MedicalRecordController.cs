@@ -32,7 +32,7 @@ namespace hospital_backend.Controllers
                     Id = r.Id,
                     Patient = r.ExaminedPatient.Name,
                     Doctor = r.ResponsibleDoctor,
-                    Date = r.DateOfExamination,
+                    Date = r.DateOfExamination.ToShortDateString(),
                     Notes = r.ExaminationNotes
                 })
                 .ToListAsync();
