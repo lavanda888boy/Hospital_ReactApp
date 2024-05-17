@@ -15,9 +15,7 @@ export const AppStateProvider = ({ children }) => {
   const [patients, setPatients] = useState([]);
   const [records, setRecords] = useState([]);
 
-  const [userRole, setUserRole] = useState(
-    localStorage.getItem("userRole") || ""
-  );
+  const [userRole, setUserRole] = useState(localStorage.getItem("role") || "");
 
   return (
     <AppStateContext.Provider

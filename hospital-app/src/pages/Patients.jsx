@@ -7,7 +7,7 @@ import "./Patients.css";
 import { AppStateContext } from "../AppStateContext";
 
 const Patients = () => {
-  const { patientCount, setPatientCount, patients, setPatients } =
+  const { patientCount, setPatientCount, patients, setPatients, userRole } =
     useContext(AppStateContext);
   const [openDialog, setOpenDialog] = useState(false);
 
@@ -58,13 +58,15 @@ const Patients = () => {
     <>
       <div className="patients-wrapper">
         <Container>
-          <Button
-            variant="contained"
-            onClick={() => setOpenDialog(true)}
-            className="patients-add-button"
-          >
-            Add Patient
-          </Button>
+          {(userRole === "Admin" || userRole === "Doctor") && (
+            <Button
+              variant="contained"
+              onClick={() => setOpenDialog(true)}
+              className="patients-add-button"
+            >
+              Add Patient
+            </Button>
+          )}
           <Grid container spacing={3}>
             {patients &&
               patients.map((patient, index) => (

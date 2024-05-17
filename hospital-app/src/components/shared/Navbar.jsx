@@ -19,7 +19,10 @@ function Navbar() {
       if (response.ok) {
         const token = await response.text();
         localStorage.setItem("token", token);
+
         setUserRole(role);
+        localStorage.setItem("role", role);
+
         setShowLoginDialog(false);
       } else {
         console.error("Login request failed:", response.statusText);
