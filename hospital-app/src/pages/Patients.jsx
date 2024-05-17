@@ -64,8 +64,6 @@ const Patients = () => {
     }
   }
 
-  function handleUpdatePatient(updatePatient) {}
-
   async function handleDeletePatient(deletePatientId) {
     const token = localStorage.getItem("token");
     try {
@@ -112,7 +110,6 @@ const Patients = () => {
                 <Grid item key={index} xs={12} sm={6} md={4}>
                   <PatientCard
                     patient={patient}
-                    onUpdate={handleUpdatePatient}
                     onDelete={() => handleDeletePatient(patient.id)}
                   />
                 </Grid>
