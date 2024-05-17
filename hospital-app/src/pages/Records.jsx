@@ -6,7 +6,7 @@ import RecordCard from "../components/records/RecordCard";
 import { AppStateContext } from "../AppStateContext";
 
 const Records = () => {
-  const { recordCount, setRecordCount, records, setRecords } =
+  const { recordCount, setRecordCount, records, setRecords, userRole } =
     useContext(AppStateContext);
   const [openDialog, setOpenDialog] = useState(false);
 
@@ -58,13 +58,15 @@ const Records = () => {
     <>
       <div className="records-wrapper">
         <Container>
-          <Button
-            variant="contained"
-            onClick={() => setOpenDialog(true)}
-            className="records-add-button"
-          >
-            Add Record
-          </Button>
+          {(userRole === "Admin" || userRole === "Doctor") && (
+            <Button
+              variant="contained"
+              onClick={() => setOpenDialog(true)}
+              className="records-add-button"
+            >
+              Add Record
+            </Button>
+          )}
           <Grid container spacing={3}>
             {records &&
               records.map((record, index) => (

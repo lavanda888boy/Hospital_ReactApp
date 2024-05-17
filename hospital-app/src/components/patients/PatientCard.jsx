@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Button,
   Card,
@@ -6,9 +6,12 @@ import {
   CardHeader,
   Typography,
 } from "@mui/material";
+import { AppStateContext } from "../../AppStateContext";
 import "./PatientCard.css";
 
 function PatientCard({ patient, onDelete }) {
+  const { userRole } = useContext(AppStateContext);
+
   const handleDelete = () => {
     onDelete(patient);
   };
@@ -28,14 +31,16 @@ function PatientCard({ patient, onDelete }) {
             ))}
           </ul>
         </Typography>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleDelete}
-          className="patient-card-remove"
-        >
-          Remove
-        </Button>
+        {userRole === "Admin" && (
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleDelete}
+            className="patient-card-remove"
+          >
+            Remove
+          </Button>
+        )}
       </CardContent>
     </Card>
   );

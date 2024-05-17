@@ -29,6 +29,7 @@ namespace hospital_backend.Controllers
                 .Take(pageSize)
                 .Select(r => new
                 {
+                    Id = r.Id,
                     Patient = r.ExaminedPatient.Name + " " + r.ExaminedPatient.Surname,
                     Doctor = r.ResponsibleDoctor,
                     Date = r.DateOfExamination,
