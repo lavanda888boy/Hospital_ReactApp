@@ -21,7 +21,7 @@ function PatientCard({ patient, onDelete }) {
   };
 
   return (
-    <Card style={{ "border-radius": "10px" }}>
+    <Card style={{ borderRadius: "10px" }}>
       <CardHeader className="patient-card-header" title={`${patient.name}`} />
       <CardContent className="patient-card-content">
         <Typography style={{ fontSize: "0.95vw", marginBottom: "1%" }}>
@@ -30,7 +30,7 @@ function PatientCard({ patient, onDelete }) {
         <Typography component="div" className="patient-card-diseases">
           Diagnosed Diseases:
           <ul>
-            {patient.diagnosedDiseases.map((disease, index) => (
+            {patient.illnesses?.map((disease, index) => (
               <li key={index}>{disease}</li>
             ))}
           </ul>

@@ -11,64 +11,88 @@ const Records = () => {
   const [openDialog, setOpenDialog] = useState(false);
 
   useEffect(() => {
-    const storedRecords = JSON.parse(localStorage.getItem("records")) || [];
-    setRecords(storedRecords);
-  }, [setRecords]);
+    async function fetchRecords() {
+      const token = localStorage.getItem("token");
+      try {
+        const response = await fetch(
+          "https://localhost:7134/api/MedicalRecord",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+        console.log(data);
+        setRecords(data);
+      } catch (error) {
+        console.error("Failed to fetch records:", error);
+      }
+    }
 
-  function saveRecordsToLocalStorage(recordsData) {
-    localStorage.setItem("records", JSON.stringify(recordsData));
-  }
+    fetchRecords();
+  }, [setRecords]);
 
   function getRecordCountFromLocalStorage() {
     const count = localStorage.getItem("recordCount");
     return count ? parseInt(count, 10) : 0;
   }
 
-  function handleAddRecord(newRecord) {
-    const updatedRecords = [...records, newRecord];
-    setRecords(updatedRecords);
-    saveRecordsToLocalStorage(updatedRecords);
+  async function handleAddRecord(newRecord) {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await fetch("https://localhost:7134/api/MedicalRecord", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(newRecord),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to add record");
+      }
 
-    const recordCount = getRecordCountFromLocalStorage() + 1;
-    localStorage.setItem("recordCount", recordCount.toString());
+      const recordCount = getPatientCountFromLocalStorage() + 1;
+      localStorage.setItem("recordCount", recordCount.toString());
+      setRecordCount(recordCount);
 
-    setRecordCount(recordCount);
-
-    setOpenDialog(false);
+      window.location.reload();
+    } catch (error) {
+      console.error("Failed to add record:", error);
+    }
   }
 
-  function handleUpdateRecord(deleteRecord) {
-    const updatedRecords = records.filter(
-      (record) =>
-        record.date !== deleteRecord.date ||
-        record.doctor !== deleteRecord.doctor ||
-        record.patient !== deleteRecord.patient ||
-        record.notes !== deleteRecord.notes
-    );
-    setRecords(updatedRecords);
-    localStorage.setItem("records", JSON.stringify(updatedRecords));
+  function handleUpdateRecord(deleteRecord) {}
 
-    const recordCount = getRecordCountFromLocalStorage() - 1;
-    localStorage.setItem("recordCount", recordCount.toString());
+  async function handleDeleteRecord(deleteRecordId) {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await fetch(
+        `https://localhost:7134/api/MedicalRecord?id=${deleteRecordId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to delete record");
+      }
 
-    setRecordCount(recordCount);
-  }
+      let recordCount = getRecordCountFromLocalStorage() - 1;
+      recordCount = recordCount >= 0 ? recordCount : 0;
+      localStorage.setItem("recordCount", recordCount.toString());
+      setRecordCount(recordCount);
 
-  function handleDeleteRecord(deleteRecord) {
-    const updatedRecords = records.filter(
-      (record) =>
-        record.date !== deleteRecord.date ||
-        record.doctor !== deleteRecord.doctor ||
-        record.patient !== deleteRecord.patient ||
-        record.notes !== deleteRecord.notes
-    );
-    setRecords(updatedRecords);
-    localStorage.setItem("records", JSON.stringify(updatedRecords));
-
-    const recordCount = getRecordCountFromLocalStorage() - 1;
-    localStorage.setItem("recordCount", recordCount.toString());
-
-    setRecordCount(recordCount);
+      window.location.reload();
+    } catch (error) {
+      console.error("Failed to delete record:", error);
+    }
   }
 
   return (
@@ -88,7 +112,10 @@ const Records = () => {
             {records &&
               records.map((record, index) => (
                 <Grid item key={index} xs={12} sm={6} md={4}>
-                  <RecordCard record={record} onDelete={handleDeleteRecord} />
+                  <RecordCard
+                    record={record}
+                    onDelete={() => handleDeleteRecord(record.id)}
+                  />
                 </Grid>
               ))}
           </Grid>

@@ -23,11 +23,18 @@ namespace hospital_backend.Controllers
         [Authorize(Roles = "Admin, Doctor")]
         public async Task<IActionResult> GetAllPatients([FromQuery] int pageNumber, int pageSize = 6)
         {
-            var patients = await _context.Patients
-                .OrderByDescending(p => p.Name)
-                .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
+            var patients = await _context.Patients.Select(p => new
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Age = p.Age,
+                Gender = p.Gender.ToString(),
+                Illnesses = p.Illnesses,
+            })
+            .OrderByDescending(p => p.Name)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
 
             return Ok(patients);
         }

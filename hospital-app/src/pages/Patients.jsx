@@ -12,62 +12,85 @@ const Patients = () => {
   const [openDialog, setOpenDialog] = useState(false);
 
   useEffect(() => {
-    const storedPatients = JSON.parse(localStorage.getItem("patients")) || [];
-    setPatients(storedPatients);
-  }, [setPatients]);
+    async function fetchPatients() {
+      const token = localStorage.getItem("token");
+      try {
+        const response = await fetch("https://localhost:7134/api/Patient", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+        console.log(data);
+        setPatients(data);
+      } catch (error) {
+        console.error("Failed to fetch patients:", error);
+      }
+    }
 
-  function savePatientsToLocalStorage(patientsData) {
-    localStorage.setItem("patients", JSON.stringify(patientsData));
-  }
+    fetchPatients();
+  }, [setPatients]);
 
   function getPatientCountFromLocalStorage() {
     const count = localStorage.getItem("patientCount");
     return count ? parseInt(count, 10) : 0;
   }
 
-  function handleAddPatient(newPatient) {
-    const updatedPatients = [...patients, newPatient];
-    setPatients(updatedPatients);
-    savePatientsToLocalStorage(updatedPatients);
+  async function handleAddPatient(newPatient) {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await fetch("https://localhost:7134/api/Patient", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(newPatient),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to add patient");
+      }
 
-    const patientCount = getPatientCountFromLocalStorage() + 1;
-    localStorage.setItem("patientCount", patientCount.toString());
+      const patientCount = getPatientCountFromLocalStorage() + 1;
+      localStorage.setItem("patientCount", patientCount.toString());
+      setPatientCount(patientCount);
 
-    setPatientCount(patientCount);
-
-    setOpenDialog(false);
+      window.location.reload();
+    } catch (error) {
+      console.error("Failed to add patient:", error);
+    }
   }
 
-  function handleUpdatePatient(updatePatient) {
-    const updatedPatients = patients.filter(
-      (patient) =>
-        patient.name !== deletePatient.name ||
-        patient.age !== deletePatient.age ||
-        patient.gender !== deletePatient.gender
-    );
-    setPatients(updatedPatients);
-    localStorage.setItem("patients", JSON.stringify(updatedPatients));
+  function handleUpdatePatient(updatePatient) {}
 
-    const patientCount = getPatientCountFromLocalStorage() - 1;
-    localStorage.setItem("patientCount", patientCount.toString());
+  async function handleDeletePatient(deletePatientId) {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await fetch(
+        `https://localhost:7134/api/Patient?id=${deletePatientId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to delete patient");
+      }
 
-    setPatientCount(patientCount);
-  }
+      let patientCount = getPatientCountFromLocalStorage() - 1;
+      patientCount = patientCount >= 0 ? patientCount : 0;
+      localStorage.setItem("patientCount", patientCount.toString());
+      setPatientCount(patientCount);
 
-  function handleDeletePatient(deletePatient) {
-    const updatedPatients = patients.filter(
-      (patient) =>
-        patient.name !== deletePatient.name ||
-        patient.age !== deletePatient.age ||
-        patient.gender !== deletePatient.gender
-    );
-    setPatients(updatedPatients);
-    localStorage.setItem("patients", JSON.stringify(updatedPatients));
-
-    const patientCount = getPatientCountFromLocalStorage() - 1;
-    localStorage.setItem("patientCount", patientCount.toString());
-
-    setPatientCount(patientCount);
+      window.location.reload();
+    } catch (error) {
+      console.error("Failed to delete patient:", error);
+    }
   }
 
   return (
@@ -83,18 +106,19 @@ const Patients = () => {
               Add Patient
             </Button>
           )}
-          <Grid container spacing={3}>
-            {patients &&
-              patients.map((patient, index) => (
+          {patients && (
+            <Grid container spacing={3}>
+              {patients.map((patient, index) => (
                 <Grid item key={index} xs={12} sm={6} md={4}>
                   <PatientCard
                     patient={patient}
                     onUpdate={handleUpdatePatient}
-                    onDelete={handleDeletePatient}
+                    onDelete={() => handleDeletePatient(patient.id)}
                   />
                 </Grid>
               ))}
-          </Grid>
+            </Grid>
+          )}
         </Container>
       </div>
       <AddPatientDialog
