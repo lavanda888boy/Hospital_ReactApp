@@ -58,7 +58,7 @@ namespace hospital_backend.Controllers
         }
 
         [HttpPut]
-        [Authorize(Roles = "Admin, Doctor")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdatePatient([FromQuery] int id, [FromBody] PatientRequestDto patientDto)
         {
             if (!ModelState.IsValid)

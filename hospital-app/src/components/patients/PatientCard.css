@@ -16,8 +16,22 @@
     font-size: 0.95vw;
   }
 
+  .patient-card-update {
+    margin-top: 3%;
+    margin-right: 2%;
+    padding-top: 3%;
+    background-color: #6a994e;
+    font-size: 1vw;
+    border-radius: 10px;
+  }
+
+  .patient-card-update:hover {
+    background-color: #80b95f;
+  }
+
   .patient-card-remove {
     margin-top: 3%;
+    margin-left: 2%;
     padding-top: 3%;
     background-color: #bc4749;
     font-size: 1vw;
