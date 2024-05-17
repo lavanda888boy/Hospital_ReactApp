@@ -38,6 +38,22 @@ const Patients = () => {
     setOpenDialog(false);
   }
 
+  function handleUpdatePatient(updatePatient) {
+    const updatedPatients = patients.filter(
+      (patient) =>
+        patient.name !== deletePatient.name ||
+        patient.age !== deletePatient.age ||
+        patient.gender !== deletePatient.gender
+    );
+    setPatients(updatedPatients);
+    localStorage.setItem("patients", JSON.stringify(updatedPatients));
+
+    const patientCount = getPatientCountFromLocalStorage() - 1;
+    localStorage.setItem("patientCount", patientCount.toString());
+
+    setPatientCount(patientCount);
+  }
+
   function handleDeletePatient(deletePatient) {
     const updatedPatients = patients.filter(
       (patient) =>
@@ -73,6 +89,7 @@ const Patients = () => {
                 <Grid item key={index} xs={12} sm={6} md={4}>
                   <PatientCard
                     patient={patient}
+                    onUpdate={handleUpdatePatient}
                     onDelete={handleDeletePatient}
                   />
                 </Grid>

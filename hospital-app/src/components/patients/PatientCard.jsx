@@ -12,6 +12,10 @@ import "./PatientCard.css";
 function PatientCard({ patient, onDelete }) {
   const { userRole } = useContext(AppStateContext);
 
+  const handleUpdate = () => {
+    onUpdate(patient);
+  };
+
   const handleDelete = () => {
     onDelete(patient);
   };
@@ -31,6 +35,16 @@ function PatientCard({ patient, onDelete }) {
             ))}
           </ul>
         </Typography>
+        {userRole === "Admin" && (
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleUpdate}
+            className="patient-card-update"
+          >
+            Update
+          </Button>
+        )}
         {userRole === "Admin" && (
           <Button
             variant="contained"

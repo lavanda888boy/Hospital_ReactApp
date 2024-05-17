@@ -9,6 +9,19 @@
   text-align: center;
   color: #f2e8cf;
 
+  .record-card-update {
+    margin-top: 3%;
+    margin-right: 2%;
+    padding-top: 3%;
+    background-color: #6a994e;
+    font-size: 1vw;
+    border-radius: 10px;
+  }
+
+  .record-card-update:hover {
+    background-color: #80b95f;
+  }
+
   .record-card-remove {
     margin-top: 3%;
     padding-top: 3%;

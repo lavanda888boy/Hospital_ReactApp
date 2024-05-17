@@ -12,6 +12,10 @@ import "./RecordCard.css";
 function RecordCard({ record, onDelete }) {
   const { userRole } = useContext(AppStateContext);
 
+  const handleUpdate = () => {
+    onUpdate(record);
+  };
+
   const handleDelete = () => {
     onDelete(record);
   };
@@ -31,6 +35,16 @@ function RecordCard({ record, onDelete }) {
             Examination notes: {record.notes}
           </Typography>
         </div>
+        {(userRole === "Admin" || userRole === "Doctor") && (
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleUpdate}
+            className="record-card-update"
+          >
+            Update
+          </Button>
+        )}
         {userRole === "Admin" && (
           <Button
             variant="contained"

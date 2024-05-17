@@ -37,6 +37,23 @@ const Records = () => {
     setOpenDialog(false);
   }
 
+  function handleUpdateRecord(deleteRecord) {
+    const updatedRecords = records.filter(
+      (record) =>
+        record.date !== deleteRecord.date ||
+        record.doctor !== deleteRecord.doctor ||
+        record.patient !== deleteRecord.patient ||
+        record.notes !== deleteRecord.notes
+    );
+    setRecords(updatedRecords);
+    localStorage.setItem("records", JSON.stringify(updatedRecords));
+
+    const recordCount = getRecordCountFromLocalStorage() - 1;
+    localStorage.setItem("recordCount", recordCount.toString());
+
+    setRecordCount(recordCount);
+  }
+
   function handleDeleteRecord(deleteRecord) {
     const updatedRecords = records.filter(
       (record) =>
@@ -80,6 +97,7 @@ const Records = () => {
       <AddRecordDialog
         open={openDialog}
         onClose={() => setOpenDialog(false)}
+        onUpdate={handleUpdateRecord}
         onSubmit={handleAddRecord}
       />
     </>
