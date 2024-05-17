@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState } from "react";
 
 export const AppStateContext = createContext();
 
@@ -15,6 +15,10 @@ export const AppStateProvider = ({ children }) => {
   const [patients, setPatients] = useState([]);
   const [records, setRecords] = useState([]);
 
+  const [userRole, setUserRole] = useState(
+    localStorage.getItem("userRole") || ""
+  );
+
   return (
     <AppStateContext.Provider
       value={{
@@ -26,6 +30,8 @@ export const AppStateProvider = ({ children }) => {
         setPatients,
         records,
         setRecords,
+        userRole,
+        setUserRole,
       }}
     >
       {children}

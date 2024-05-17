@@ -7,7 +7,8 @@ import "./Navbar.css";
 import LoginDialog from "../login/LoginDialog";
 
 function Navbar() {
-  const { patientCount, recordCount } = useContext(AppStateContext);
+  const { patientCount, recordCount, setUserRole } =
+    useContext(AppStateContext);
   const [showLoginDialog, setShowLoginDialog] = useState(false);
 
   const handleLoginSubmit = async (role) => {
@@ -18,6 +19,7 @@ function Navbar() {
       if (response.ok) {
         const token = await response.text();
         localStorage.setItem("token", token);
+        setUserRole(role);
         setShowLoginDialog(false);
       } else {
         console.error("Login request failed:", response.statusText);
