@@ -12,10 +12,6 @@ namespace hospital_backend.Models
         [MaxLength(50)]
         public required string Name { get; set; }
 
-        [MinLength(1)]
-        [MaxLength(50)]
-        public required string Surname { get; set; }
-
         [Range(1, 150)]
         public required int Age { get; set; }
 

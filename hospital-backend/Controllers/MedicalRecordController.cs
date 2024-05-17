@@ -30,7 +30,7 @@ namespace hospital_backend.Controllers
                 .Select(r => new
                 {
                     Id = r.Id,
-                    Patient = r.ExaminedPatient.Name + " " + r.ExaminedPatient.Surname,
+                    Patient = r.ExaminedPatient.Name,
                     Doctor = r.ResponsibleDoctor,
                     Date = r.DateOfExamination,
                     Notes = r.ExaminationNotes
@@ -59,7 +59,7 @@ namespace hospital_backend.Controllers
             {
                 ExaminedPatient = patient,
                 ResponsibleDoctor = recordDto.ResponsibleDoctor,
-                DateOfExamination = DateTimeOffset.Now,
+                DateOfExamination = DateTime.Now,
                 ExaminationNotes = recordDto.ExaminationNotes
             };
 
