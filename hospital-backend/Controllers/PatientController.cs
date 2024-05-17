@@ -25,7 +25,6 @@ namespace hospital_backend.Controllers
         {
             var patients = await _context.Patients
                 .OrderByDescending(p => p.Name)
-                .ThenBy(p => p.Surname)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
@@ -45,7 +44,6 @@ namespace hospital_backend.Controllers
             var patient = new Patient
             {
                 Name = patientDto.Name,
-                Surname = patientDto.Surname,
                 Age = patientDto.Age,
                 Gender = Enum.Parse<Gender>(patientDto.Gender),
                 Illnesses = patientDto.Illnesses
@@ -73,7 +71,6 @@ namespace hospital_backend.Controllers
             }
 
             existingPatient.Name = patientDto.Name;
-            existingPatient.Surname = patientDto.Surname;
             existingPatient.Age = patientDto.Age;
             existingPatient.Gender = Enum.Parse<Gender>(patientDto.Gender);
             existingPatient.Illnesses = patientDto.Illnesses;

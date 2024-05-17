@@ -14,7 +14,7 @@ namespace hospital_backend.Models
         [MaxLength(30)]
         public required string ResponsibleDoctor { get; set; }
 
-        public required DateTimeOffset DateOfExamination { get; set; }
+        public required DateTime DateOfExamination { get; set; }
 
         [MinLength(10)]
         [MaxLength(250)]
