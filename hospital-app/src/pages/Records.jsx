@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, useState } from "react";
-import { Container, Grid, Button } from "@mui/material";
+import { Container, Grid, Button, Pagination } from "@mui/material";
 import "./Records.css";
 import AddRecordDialog from "../components/records/AddRecordDialog";
 import RecordCard from "../components/records/RecordCard";
@@ -9,13 +9,16 @@ const Records = () => {
   const { recordCount, setRecordCount, records, setRecords, userRole } =
     useContext(AppStateContext);
   const [openDialog, setOpenDialog] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalRecords, setTotalRecords] = useState(0);
+  const pageSize = 6;
 
   useEffect(() => {
     async function fetchRecords() {
       const token = localStorage.getItem("token");
       try {
         const response = await fetch(
-          "https://localhost:7134/api/MedicalRecord",
+          `https://localhost:7134/api/MedicalRecord?pageNumber=${currentPage}&pageSize=${pageSize}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -27,14 +30,19 @@ const Records = () => {
         }
         const data = await response.json();
         console.log(data);
-        setRecords(data);
+        setRecords(data.records);
+        setTotalRecords(data.totalRecords);
       } catch (error) {
         console.error("Failed to fetch records:", error);
       }
     }
 
     fetchRecords();
-  }, [setRecords]);
+  }, [currentPage, setRecords]);
+
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
+  };
 
   function getRecordCountFromLocalStorage() {
     const count = localStorage.getItem("recordCount");
@@ -120,6 +128,14 @@ const Records = () => {
                 </Grid>
               ))}
           </Grid>
+          {records.length != 0 && (
+            <Pagination
+              count={Math.ceil(totalRecords / pageSize)}
+              page={currentPage}
+              onChange={handlePageChange}
+              className="records-pagination"
+            />
+          )}
         </Container>
       </div>
       <AddRecordDialog
