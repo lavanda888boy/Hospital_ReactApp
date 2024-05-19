@@ -23,11 +23,7 @@ namespace hospital_backend.Controllers
         [Authorize(Roles = "Admin, Doctor")]
         public async Task<IActionResult> GetAllRecords([FromQuery] int pageNumber, int pageSize = 6)
         {
-            var records = await _context.Records
-                .OrderByDescending(r => r.DateOfExamination)
-                .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize)
-                .Select(r => new
+            var records = await _context.Records.Select(r => new
                 {
                     Id = r.Id,
                     Patient = r.ExaminedPatient.Name,
@@ -35,6 +31,8 @@ namespace hospital_backend.Controllers
                     Date = r.DateOfExamination.ToShortDateString(),
                     Notes = r.ExaminationNotes
                 })
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
                 .ToListAsync();
 
             return Ok(records);
@@ -52,7 +50,7 @@ namespace hospital_backend.Controllers
             var patient = await _context.Patients.FindAsync(recordDto.ExaminedPatientId);
             if (patient == null)
             {
-                return BadRequest($"Cannot create medical record with non-existing patient id = {recordDto.ExaminedPatientId}");
+                return NotFound($"Cannot create medical record with non-existing patient id = {recordDto.ExaminedPatientId}");
             }
 
             var record = new MedicalRecord

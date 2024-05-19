@@ -7,7 +7,7 @@ import {
   Button,
   TextField,
 } from "@mui/material";
-import "./AddPatientDialog.css";
+import "./UpdatePatientDialog.css";
 
 function UpdatePatientDialog({ open, onClose, onSubmit, patient }) {
   const [name, setName] = useState("");
@@ -52,7 +52,7 @@ function UpdatePatientDialog({ open, onClose, onSubmit, patient }) {
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <div className="patients-add-dialog">
+      <div className="patients-update-dialog">
         <DialogTitle style={{ marginBottom: "-2%" }}>
           Update Patient
         </DialogTitle>
@@ -62,7 +62,7 @@ function UpdatePatientDialog({ open, onClose, onSubmit, patient }) {
             value={name}
             onChange={(e) => setName(e.target.value)}
             fullWidth
-            className="patients-add-dialog-row"
+            className="patients-update-dialog-row"
           />
           <TextField
             label="Age"
@@ -70,21 +70,21 @@ function UpdatePatientDialog({ open, onClose, onSubmit, patient }) {
             value={age}
             onChange={(e) => setAge(e.target.value)}
             fullWidth
-            className="patients-add-dialog-row"
+            className="patients-update-dialog-row"
           />
           <TextField
             label="Gender"
             value={gender}
             onChange={(e) => setGender(e.target.value)}
             fullWidth
-            className="patients-add-dialog-row"
+            className="patients-update-dialog-row"
           />
           <TextField
             label="Diagnosed Diseases (comma-separated)"
             value={diagnosedDiseases}
             onChange={(e) => setDiagnosedDiseases(e.target.value)}
             fullWidth
-            className="patients-add-dialog-row"
+            className="patients-update-dialog-row"
           />
         </DialogContent>
         <DialogActions>
@@ -92,7 +92,7 @@ function UpdatePatientDialog({ open, onClose, onSubmit, patient }) {
             onClick={handleSubmit}
             variant="contained"
             color="primary"
-            className="patients-add-dialog-submit"
+            className="patients-update-dialog-submit"
           >
             Submit
           </Button>
@@ -100,7 +100,7 @@ function UpdatePatientDialog({ open, onClose, onSubmit, patient }) {
             onClick={onClose}
             variant="contained"
             color="primary"
-            className="patients-add-dialog-cancel"
+            className="patients-update-dialog-cancel"
           >
             Cancel
           </Button>
