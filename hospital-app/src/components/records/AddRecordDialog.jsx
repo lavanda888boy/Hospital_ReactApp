@@ -10,27 +10,24 @@ import {
 import "./AddRecordDialog.css";
 
 function AddRecordDialog({ open, onClose, onSubmit }) {
-  const [date, setDate] = useState("");
   const [examinedPatient, setExaminedPatient] = useState("");
   const [doctor, setDoctor] = useState("");
   const [examinationNotes, setExaminationNotes] = useState("");
 
   const handleSubmit = () => {
-    if (!date || !examinedPatient || !doctor || !examinationNotes) {
+    if (!examinedPatient || !doctor || !examinationNotes) {
       alert("Please fill out all fields or validate the data");
       return;
     }
 
     const newRecord = {
-      date: date,
-      patient: examinedPatient,
-      doctor: doctor,
-      notes: examinationNotes,
+      examinedPatientId: parseInt(examinedPatient),
+      responsibleDoctor: doctor,
+      examinationNotes: examinationNotes,
     };
 
     onSubmit(newRecord);
 
-    setDate("");
     setExaminedPatient("");
     setDoctor("");
     setExaminationNotes("");
@@ -42,33 +39,26 @@ function AddRecordDialog({ open, onClose, onSubmit }) {
     <Dialog open={open} onClose={onClose}>
       <div className="records-add-dialog">
         <DialogTitle style={{ marginBottom: "-2%" }}>
-          {" "}
-          Add New Record{" "}
+          Add New Record
         </DialogTitle>
         <DialogContent>
           <TextField
-            value={date}
-            type="date"
-            onChange={(e) => setDate(e.target.value)}
-            fullWidth
-            className="records-add-dialog-row"
-          />
-          <TextField
-            label="ExaminedPatient"
+            label="Examined Patient ID"
+            type="number"
             value={examinedPatient}
             onChange={(e) => setExaminedPatient(e.target.value)}
             fullWidth
             className="records-add-dialog-row"
           />
           <TextField
-            label="ResponsibleDoctor"
+            label="Responsible Doctor"
             value={doctor}
             onChange={(e) => setDoctor(e.target.value)}
             fullWidth
             className="records-add-dialog-row"
           />
           <TextField
-            label="Examination notes"
+            label="Examination Notes"
             value={examinationNotes}
             onChange={(e) => setExaminationNotes(e.target.value)}
             fullWidth

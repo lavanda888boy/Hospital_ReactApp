@@ -52,21 +52,21 @@ const Records = () => {
         },
         body: JSON.stringify(newRecord),
       });
+      console.log(newRecord);
       if (!response.ok) {
         throw new Error("Failed to add record");
       }
 
-      const recordCount = getPatientCountFromLocalStorage() + 1;
+      const recordCount = getRecordCountFromLocalStorage() + 1;
       localStorage.setItem("recordCount", recordCount.toString());
       setRecordCount(recordCount);
 
       window.location.reload();
     } catch (error) {
       console.error("Failed to add record:", error);
+      alert("Failed to add record.");
     }
   }
-
-  function handleUpdateRecord(deleteRecord) {}
 
   async function handleDeleteRecord(deleteRecordId) {
     const token = localStorage.getItem("token");
@@ -92,6 +92,7 @@ const Records = () => {
       window.location.reload();
     } catch (error) {
       console.error("Failed to delete record:", error);
+      alert("Failed to delete record.");
     }
   }
 
@@ -124,7 +125,6 @@ const Records = () => {
       <AddRecordDialog
         open={openDialog}
         onClose={() => setOpenDialog(false)}
-        onUpdate={handleUpdateRecord}
         onSubmit={handleAddRecord}
       />
     </>

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import {
   Button,
   Card,
@@ -8,16 +8,45 @@ import {
 } from "@mui/material";
 import { AppStateContext } from "../../AppStateContext";
 import "./RecordCard.css";
+import UpdateRecordDialog from "./UpdateRecordDialog";
 
 function RecordCard({ record, onDelete }) {
   const { userRole } = useContext(AppStateContext);
+  const [openDialog, setOpenDialog] = useState(false);
 
   const handleUpdate = () => {
-    //onUpdate(record);
+    setOpenDialog(true);
   };
 
-  const handleDelete = () => {
-    onDelete(record);
+  const handleClose = () => {
+    setOpenDialog(false);
+  };
+
+  const handleSubmit = async (updatedRecord) => {
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await fetch(
+        `https://localhost:7134/api/MedicalRecord/?id=${updatedRecord.id}&examinationNotes=${updatedRecord.examinationNotes}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to update record");
+      }
+
+      handleClose();
+      window.location.reload();
+    } catch (error) {
+      console.error("Failed to update record:", error);
+      alert("Failed to update record.");
+    }
   };
 
   return (
@@ -49,13 +78,19 @@ function RecordCard({ record, onDelete }) {
           <Button
             variant="contained"
             color="primary"
-            onClick={handleDelete}
+            onClick={() => onDelete(record)}
             className="record-card-remove"
           >
             Remove
           </Button>
         )}
       </CardContent>
+      <UpdateRecordDialog
+        open={openDialog}
+        onClose={handleClose}
+        onSubmit={handleSubmit}
+        record={record}
+      />
     </Card>
   );
 }

@@ -31,7 +31,6 @@ namespace hospital_backend.Controllers
                 Gender = p.Gender.ToString(),
                 Illnesses = p.Illnesses,
             })
-            .OrderByDescending(p => p.Name)
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();

@@ -7,10 +7,10 @@ import {
   Typography,
 } from "@mui/material";
 import { AppStateContext } from "../../AppStateContext";
-import UpdatePatientDialog from "./UpdatePatientDialog"; // Make sure the path is correct
+import UpdatePatientDialog from "./UpdatePatientDialog";
 import "./PatientCard.css";
 
-function PatientCard({ patient, onDelete, onUpdate }) {
+function PatientCard({ patient, onDelete }) {
   const { userRole } = useContext(AppStateContext);
   const [openDialog, setOpenDialog] = useState(false);
 
@@ -46,7 +46,7 @@ function PatientCard({ patient, onDelete, onUpdate }) {
       window.location.reload();
     } catch (error) {
       console.error("Failed to update patient:", error);
-      alert("Failed to update patient. Please try again.");
+      alert("Failed to update patient.");
     }
   };
 

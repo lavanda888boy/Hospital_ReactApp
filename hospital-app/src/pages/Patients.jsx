@@ -61,6 +61,7 @@ const Patients = () => {
       window.location.reload();
     } catch (error) {
       console.error("Failed to add patient:", error);
+      alert("Failed to add patient.");
     }
   }
 
@@ -88,6 +89,7 @@ const Patients = () => {
       window.location.reload();
     } catch (error) {
       console.error("Failed to delete patient:", error);
+      alert("Failed to delete patient.");
     }
   }
 
