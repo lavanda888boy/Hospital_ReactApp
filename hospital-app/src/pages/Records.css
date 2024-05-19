@@ -15,4 +15,10 @@
   .records-add-button:hover {
     background-color: #6a994e;
   }
+
+  .records-pagination {
+    display: flex;
+    justify-content: center;
+    padding-top: 1%;
+  }
 }

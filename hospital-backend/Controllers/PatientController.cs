@@ -23,6 +23,8 @@ namespace hospital_backend.Controllers
         [Authorize(Roles = "Admin, Doctor")]
         public async Task<IActionResult> GetAllPatients([FromQuery] int pageNumber, int pageSize = 6)
         {
+            var totalPatients = await _context.Patients.CountAsync();
+
             var patients = await _context.Patients.Select(p => new
             {
                 Id = p.Id,
@@ -35,7 +37,7 @@ namespace hospital_backend.Controllers
             .Take(pageSize)
             .ToListAsync();
 
-            return Ok(patients);
+            return Ok(new { TotalPatients = totalPatients, Patients = patients });
         }
 
         [HttpPost]

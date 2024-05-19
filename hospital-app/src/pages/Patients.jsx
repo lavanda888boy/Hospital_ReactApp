@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Container, Grid, Button } from "@mui/material";
+import { Container, Grid, Button, Pagination } from "@mui/material";
 import PatientCard from "../components/patients/PatientCard";
 import AddPatientDialog from "../components/patients/AddPatientDialog";
 import "./Patients.css";
@@ -10,29 +10,40 @@ const Patients = () => {
   const { patientCount, setPatientCount, patients, setPatients, userRole } =
     useContext(AppStateContext);
   const [openDialog, setOpenDialog] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPatients, setTotalPatients] = useState(0);
+  const pageSize = 6;
 
   useEffect(() => {
     async function fetchPatients() {
       const token = localStorage.getItem("token");
       try {
-        const response = await fetch("https://localhost:7134/api/Patient", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await fetch(
+          `https://localhost:7134/api/Patient?pageNumber=${currentPage}&pageSize=${pageSize}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
         console.log(data);
-        setPatients(data);
+        setPatients(data.patients);
+        setTotalPatients(data.totalPatients);
       } catch (error) {
         console.error("Failed to fetch patients:", error);
       }
     }
 
     fetchPatients();
-  }, [setPatients]);
+  }, [currentPage, setPatients]);
+
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
+  };
 
   function getPatientCountFromLocalStorage() {
     const count = localStorage.getItem("patientCount");
@@ -117,6 +128,14 @@ const Patients = () => {
                 </Grid>
               ))}
             </Grid>
+          )}
+          {patients.length != 0 && (
+            <Pagination
+              count={Math.ceil(totalPatients / pageSize)}
+              page={currentPage}
+              onChange={handlePageChange}
+              className="patients-pagination"
+            />
           )}
         </Container>
       </div>
