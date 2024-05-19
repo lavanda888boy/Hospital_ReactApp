@@ -1,6 +1,6 @@
 bin
 obj
 .vs
-*.db
-*.db-shm
-*.db-wal
+hospital-backend/HospitalApp.db
+hospital-backend/HospitalApp.db-shm
+hospital-backend/HospitalApp.db-wal
